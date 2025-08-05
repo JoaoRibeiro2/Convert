@@ -1,13 +1,16 @@
 // COTAÇÃO DE MOEDAS DO DIA
 
-      const USD = 4.87
-      const EUR = 5.32
-      const GBP = 6.08
+const USD = 4.87
+const EUR = 5.32
+const GBP = 6.08
 
 const form = document.querySelector("form")
-
 const amount = document.querySelector("#amount")
 const currency = document.querySelector("#currency")
+const footer = document.querySelector("main footer")
+const description = document.querySelector("#description")
+
+
 // Manipulando o input amount para receber somente números
 
 amount.addEventListener("input", () =>{
@@ -21,7 +24,7 @@ form.onsubmit = function(event){
       event.preventDefault()
       switch(currency.value){
             case "USD":
-            convertCurrency(amount.value, USD, "US$ ")
+            convertCurrency(amount.value, USD, "US$")
             break
             case "EUR":
             convertCurrency(amount.value, EUR, "€")
@@ -35,5 +38,25 @@ form.onsubmit = function(event){
 // Função para converter a moeda
 
 function convertCurrency(amount, price, symbol){
-      console.log(amount, price, symbol)
+      try{
+            // Exibindo a cotação da moeda selecionada
+            description.textContent = `${symbol} 1 = ${formatCurrencyBRL(price)}`
+            footer.classList.add("show-result")
+      } catch (error){
+
+            // Remove a classe do footer
+            console.log(error)
+            footer.classList.remove("show-result")
+            alert("Não foi possível converter. Tente novamente mais tarde")
+      }
+}
+
+// Formata a moeda em real Brasileiro
+
+function formatCurrencyBRL(value){
+      return Number(value).toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+      })
+
 }
